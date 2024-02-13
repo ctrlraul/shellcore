@@ -6,6 +6,7 @@ public class PartDisplayBase : MonoBehaviour
     public Text partName;
     public Text partStats;
     public Image image;
+    public Image shooter;
     public Image abilityImage;
     public Image abilityTier;
     public Text abilityText;
@@ -20,6 +21,8 @@ public class PartDisplayBase : MonoBehaviour
         abilityImage.gameObject.SetActive(false);
         abilityText.gameObject.SetActive(false);
         image.gameObject.SetActive(false);
+        if (shooter)
+            shooter.enabled = false;
         partName.gameObject.SetActive(false);
         partStats.gameObject.SetActive(false);
         abilityTier.gameObject.SetActive(false);
@@ -90,5 +93,26 @@ public class PartDisplayBase : MonoBehaviour
         if (image.sprite)
             image.rectTransform.sizeDelta = image.sprite.bounds.size * 100;
         image.color = info.shiny ? FactionManager.GetFactionShinyColor(0) : FactionManager.GetFactionColor(0);
+
+        if (shooter)
+            SetShooter(info);
+    }
+
+    private void SetShooter(EntityBlueprint.PartInfo info)
+    {
+        shooter.enabled = false;
+
+        if (info.abilityID == 0)
+            return;
+        
+        string shooterID = AbilityUtilities.GetShooterByID(info.abilityID);
+        shooter.sprite = ResourceManager.GetAsset<Sprite>(shooterID);
+
+        if (shooter.sprite is null)
+            return;
+        
+        shooter.rectTransform.sizeDelta = shooter.sprite.bounds.size * 100;
+        shooter.color = image.color;
+        shooter.enabled = true;
     }
 }
