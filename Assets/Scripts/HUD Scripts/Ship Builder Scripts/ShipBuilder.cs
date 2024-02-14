@@ -1723,28 +1723,39 @@ public class ShipBuilder : GUIWindowScripts
             }
         }
 
+        bool hasSearchQuery = !string.IsNullOrEmpty(searcherString);
+
         foreach (ShipBuilderInventoryScript inv in partDict.Values)
         {
-            string partName = inv.part.partID.ToLower();
-            string abilityName = AbilityUtilities.GetAbilityNameByID(inv.part.abilityID, inv.part.tier, inv.part.secondaryData).ToLower();
-            if (partName.Contains(searcherString) || abilityName.Contains(searcherString) || searcherString == "")
+            if (hasSearchQuery && !PartMatchesSearchQuery(inv.part, searcherString))
             {
-                if (displayingTypes[(int)AbilityUtilities.GetAbilityTypeByID(inv.part.abilityID)] && 
-                    (mode != BuilderMode.Workshop || GetDroneWorkshopSelectPhase() || ResourceManager.GetAsset<PartBlueprint>(inv.part.partID).size == 0))
-                {
-                    inv.gameObject.SetActive(true);
-                    contentTexts[ResourceManager.GetAsset<PartBlueprint>(inv.part.partID).size].SetActive(true);
-                }
-                else
-                {
-                    inv.gameObject.SetActive(false);
-                }
+                inv.gameObject.SetActive(false);
+                continue;
+            }
+
+            // Hell?
+            if (displayingTypes[(int)AbilityUtilities.GetAbilityTypeByID(inv.part.abilityID)] && (
+                mode != BuilderMode.Workshop ||
+                GetDroneWorkshopSelectPhase() ||
+                ResourceManager.GetAsset<PartBlueprint>(inv.part.partID).size == 0)
+            ) {
+                inv.gameObject.SetActive(true);
+                contentTexts[ResourceManager.GetAsset<PartBlueprint>(inv.part.partID).size].SetActive(true);
             }
             else
             {
                 inv.gameObject.SetActive(false);
             }
         }
+    }
+
+    private bool PartMatchesSearchQuery(EntityBlueprint.PartInfo part, string query)
+    {
+        return (
+            part.partID.ToLower().Contains(query) ||
+            part.playerGivenName.ToLower().Contains(query) ||
+            AbilityUtilities.GetAbilityNameByID(part.abilityID, part.tier, part.secondaryData).ToLower().Contains(query)
+        );
     }
 
     // The following 3 methods use editorCoreTier to set the editor core SHELL (idk why it's shell) sprites correctly
