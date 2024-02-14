@@ -391,125 +391,84 @@ public static class AbilityUtilities
         }
     }
 
-    public static string GetAbilityNameByID(int ID, string secondaryData)
+    public static string GetAbilityNameByID(int id, int tier = 0, string secondaryData = null)
     {
-        switch (ID)
+        string name = id switch
         {
-            case 0:
-                return "None";
-            case 1:
-                return "Speed Thrust";
-            case 2:
-                return "Shell Boost";
-            case 3:
-                return "Main Bullet";
-            case 4:
-                return "Beam";
-            case 5:
-                return "Bullet";
-            case 6:
-                return "Cannon";
-            case 7:
-                return "Missile";
-            case 8:
-                return "Torpedo";
-            case 9:
-                return "Laser";
-            case 10:
-                if (secondaryData == null)
-                {
-                    return "Spawn Drone";
-                }
+            0 => "None",
+            1 => "Speed Thrust",
+            2 => "Shell Boost",
+            3 => "Main Bullet",
+            4 => "Beam",
+            5 => "Bullet",
+            6 => "Cannon",
+            7 => "Missile",
+            8 => "Torpedo",
+            9 => "Laser",
+            10 => GetDroneAbilityName(secondaryData),
+            11 => "Core Heal",
+            12 => "Energy",
+            13 => "Speed",
+            14 => "Siege Bullet",
+            15 => "Speeder Bullet",
+            16 => "Harvester",
+            17 => "Shell Regen",
+            18 => "Shell Max",
+            19 => "Energy Regen",
+            20 => "Energy Max",
+            21 => "Command",
+            22 => "Core Regen",
+            23 => "Core Max",
+            24 => "Stealth",
+            25 => "Damage Boost",
+            26 => "Area Restore",
+            27 => "Pin Down",
+            28 => "Retreat",
+            29 => "Absorb Field",
+            30 => "Shell Regen",
+            31 => "Core Regen",
+            32 => "Energy Regen",
+            33 => "Disrupt",
+            34 => "Control",
+            35 => "Invert Tractor",
+            36 => "Bomb",
+            37 => "Ion",
+            38 => "Flak",
+            39 => "Rocket",
+            40 => "Yard Warp",
+            41 => "Unload",
+            42 => "Heal Aura",
+            43 => "Speed Aura",
+            44 => "Energy Aura",
+            45 => "Chain Beam",
+            46 => "Speeder Missile",
+            47 => "Radar",
+            _ => "Name unset",
+        };
 
-                DroneSpawnData data = DroneUtilities.GetDroneSpawnDataByShorthand(secondaryData);
-                return DroneUtilities.GetAbilityNameByType(data.type);
-            case 11:
-                return "Core Heal";
-            case 12:
-                return "Energy";
-            case 13:
-                return "Speed";
-            case 14:
-                return "Siege Bullet";
-            case 15:
-                return "Speeder Bullet";
-            case 16:
-                return "Harvester";
-            case 17:
-                return "Shell Regen";
-            case 18:
-                return "Shell Max";
-            case 19:
-                return "Energy Regen";
-            case 20:
-                return "Energy Max";
-            case 21:
-                return "Command";
-            case 22:
-                return "Core Regen";
-            case 23:
-                return "Core Max";
-            case 24:
-                return "Stealth";
-            case 25:
-                return "Damage Boost";
-            case 26:
-                return "Area Restore";
-            case 27:
-                return "Pin Down";
-            case 28:
-                return "Retreat";
-            case 29:
-                return "Absorb Field";
-            case 30:
-                return "Shell Regen";
-            case 31:
-                return "Core Regen";
-            case 32:
-                return "Energy Regen";
-            case 33:
-                return "Disrupt";
-            case 34:
-                return "Control";
-            case 35:
-                return "Invert Tractor";
-            case 36:
-                return "Bomb";
-            case 37:
-                return "Ion";
-            case 38:
-                return "Flak";
-            case 39:
-                return "Rocket";
-            case 40:
-                return "Yard Warp";
-            case 41:
-                return "Unload";
-            case 42:
-                return "Heal Aura";
-            case 43:
-                return "Speed Aura";
-            case 44:
-                return "Energy Aura";
-            case 45:
-                return "Chain Beam";
-            case 46:
-                return "Speeder Missile";
-            case 47:
-                return "Radar";
-            default:
-                return "Name unset";
-        }
+        if (tier > 0)
+            name += " " + tier;
+
+        return name;
+    }
+    
+    private static string GetDroneAbilityName(string secondaryData)
+    {
+        if (string.IsNullOrEmpty(secondaryData))
+            return "Spawn Drone";
+
+        DroneSpawnData data = DroneUtilities.GetDroneSpawnDataByShorthand(secondaryData);
+        return DroneUtilities.GetAbilityNameByType(data.type);
     }
 
     public static string GetAbilityName(Ability ability)
     {
         switch (ability.GetID())
         {
-            case 10:
-                return DroneUtilities.GetAbilityNameByType((ability as SpawnDrone).spawnData.type);
+            case (int)AbilityID.SpawnDrone:
+                return DroneUtilities.GetAbilityNameByType((ability as SpawnDrone)!.spawnData.type);
             default:
-                return GetAbilityNameByID(ability.GetID(), "");
+                return GetAbilityNameByID(ability.GetID());
         }
     }
 

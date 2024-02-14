@@ -52,13 +52,13 @@ public class PartDisplayBase : MonoBehaviour
 
             abilityImage.sprite = AbilityUtilities.GetAbilityImageByID(info.abilityID, info.secondaryData);
             abilityImage.gameObject.SetActive(true);
-            abilityText.text = AbilityUtilities.GetAbilityNameByID(info.abilityID, info.secondaryData) + (info.tier > 0 ? " " + info.tier : "");
+            abilityText.text = AbilityUtilities.GetAbilityNameByID(info.abilityID, info.tier, info.secondaryData);
             abilityText.gameObject.SetActive(true);
             abilityBox.gameObject.SetActive(true);
 
             string description = "";
 
-            description += AbilityUtilities.GetAbilityNameByID(info.abilityID, info.secondaryData) + (info.tier > 0 ? " " + info.tier : "") + "\n";
+            description += AbilityUtilities.GetAbilityNameByID(info.abilityID, info.tier, info.secondaryData) + "\n";
             description += AbilityUtilities.GetDescriptionByID(info.abilityID, info.tier, info.secondaryData);
             buttonScript.abilityInfo = description;
         }

@@ -182,7 +182,7 @@ namespace NodeEditorFramework.Standard
                     partAbilityID = RTEditorGUI.IntField("Ability ID", 0, GUILayout.Width(200f));
                     Debug.LogWarning("This identification does not exist!");
                 }
-                string abilityName = AbilityUtilities.GetAbilityNameByID(partAbilityID, null);
+                string abilityName = AbilityUtilities.GetAbilityNameByID(partAbilityID);
                 if (abilityName != "Name unset")
                 {
                     GUILayout.Label("Ability: " + abilityName);

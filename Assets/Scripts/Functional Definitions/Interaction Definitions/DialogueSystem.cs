@@ -666,9 +666,9 @@ public class DialogueSystem : MonoBehaviour, IDialogueOverrideHandler
                     tierIcon.enabled = false;
                 }
 
-                type.text = AbilityUtilities.GetAbilityNameByID(wrapper.partAbilityID, null) + (wrapper.partTier > 0 ? " " + wrapper.partTier : "");
+                type.text = AbilityUtilities.GetAbilityNameByID(wrapper.partAbilityID, wrapper.partTier);
                 string description = "";
-                description += AbilityUtilities.GetAbilityNameByID(wrapper.partAbilityID, null) + (wrapper.partTier > 0 ? " " + wrapper.partTier : "") + "\n";
+                description += AbilityUtilities.GetAbilityNameByID(wrapper.partAbilityID, wrapper.partTier) + "\n";
                 description += AbilityUtilities.GetDescriptionByID(wrapper.partAbilityID, wrapper.partTier, null);
                 abilityTooltip.abilityInfo = description;
             }

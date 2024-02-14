@@ -164,7 +164,7 @@ public class FusionStationScript : GUIWindowScripts
         foreach (FusionStationInventoryScript inv in buttons.Values)
         {
             string partName = inv.part.partID.ToLower();
-            string abilityName = AbilityUtilities.GetAbilityNameByID(inv.part.abilityID, inv.part.secondaryData).ToLower() + (inv.part.tier > 0 ? " " + inv.part.tier : "");
+            string abilityName = AbilityUtilities.GetAbilityNameByID(inv.part.abilityID, inv.part.tier, inv.part.secondaryData).ToLower();
             if (string.IsNullOrEmpty(searcherString) || partName.Contains(searcherString) || abilityName.Contains(searcherString))
             {
                 if (displayingTypes[(int)AbilityUtilities.GetAbilityTypeByID(inv.part.abilityID)])
